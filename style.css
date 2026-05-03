@@ -20,6 +20,22 @@
   --nav-h:     72px;
 }
 
+/* Light Mode Colors */
+html[data-theme="light"] {
+  --bg:        #ffffff;
+  --bg-card:   #f5f7fa;
+  --bg-card2:  #eff3f8;
+  --border:    #e0e7f1;
+  --border-hi: #d0dae8;
+  --text:      #1a202c;
+  --text-muted:#64748b;
+  --purple:    #7c5cfc;
+  --purple-lt: #9b7dff;
+  --blue:      #5b8af0;
+  --gradient:  linear-gradient(135deg, #7c5cfc 0%, #5b8af0 100%);
+  --gradient2: linear-gradient(135deg, #6a4ff5 0%, #7c5cfc 50%, #5b8af0 100%);
+}
+
 html { scroll-behavior: smooth; }
 
 body {
@@ -28,6 +44,7 @@ body {
   color: var(--text);
   line-height: 1.6;
   overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 a { text-decoration: none; color: inherit; }
@@ -43,6 +60,11 @@ ul { list-style: none; }
   background: rgba(13,17,23,0.92);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+html[data-theme="light"] .navbar {
+  background: rgba(255,255,255,0.92);
 }
 
 .nav-inner {
@@ -90,6 +112,74 @@ ul { list-style: none; }
   transition: color 0.2s;
 }
 .nav-links a:hover { color: var(--text); }
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 0 10px;
+}
+
+.theme-toggle:hover {
+  background: var(--bg-card);
+  border-color: var(--border-hi);
+}
+
+.theme-toggle {
+  position: relative; /* ADD THIS */
+  overflow: hidden;
+}
+
+/* stack icons perfectly */
+.theme-toggle svg {
+  position: absolute;   /* KEY FIX */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* perfect center */
+
+  width: 20px;
+  height: 20px;
+
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.theme-toggle .sun-icon {
+  opacity: 0;
+  transform: translate(-50%, -50%) rotate(0deg);
+}
+
+.theme-toggle .moon-icon {
+  opacity: 1;
+  transform: translate(-50%, -50%) rotate(0deg);
+}
+
+html[data-theme="light"] .theme-toggle .sun-icon {
+  opacity: 1;
+  transform: translate(-50%, -50%) rotate(0deg);
+}
+
+html[data-theme="light"] .theme-toggle .moon-icon {
+  opacity: 0;
+  transform: translate(-50%, -50%) rotate(0deg);
+}
+
+html[data-theme="light"] .theme-toggle .sun-icon {
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+html[data-theme="light"] .theme-toggle .moon-icon {
+  opacity: 0;
+  transform: rotate(0deg);
+}
 
 .btn-quote {
   background: var(--gradient);
@@ -311,6 +401,10 @@ ul { list-style: none; }
   border-color: rgba(124,92,252,0.45);
   background: linear-gradient(160deg, #1a2035 0%, #1e1640 100%);
 }
+
+html[data-theme="light"] .card-highlighted {
+  background: linear-gradient(160deg, #f0e7ff 0%, #e8dff8 100%);
+}
 .card-highlighted:hover { border-color: var(--purple); }
 
 .card h3 {
@@ -383,6 +477,10 @@ ul { list-style: none; }
 .pricing-card.popular {
   border-color: rgba(124,92,252,0.55);
   background: linear-gradient(160deg, #1a2035 0%, #1e1640 100%);
+}
+
+html[data-theme="light"] .pricing-card.popular {
+  background: linear-gradient(160deg, #f0e7ff 0%, #e8dff8 100%);
 }
 .pricing-card.popular:hover { border-color: var(--purple); }
 
@@ -488,8 +586,7 @@ ul { list-style: none; }
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background: #0b1220;
-  color: white;
+  
 }
 
 .container {
@@ -513,7 +610,7 @@ body {
 }
 
 .subtitle {
-  color: #a0aec0;
+  color: var(--text-muted);
   margin-bottom: 40px;
 }
 
@@ -527,11 +624,13 @@ body {
 .contact-form,
 .contact-info {
   background: #121a2f;
+  background: var(--bg-card);
   padding: 25px;
   border-radius: 12px;
   flex: 1;
   min-width: 320px;
   text-align: left;
+  border: 1px solid var(--border);
 }
 
 .contact-form h3,
@@ -548,10 +647,18 @@ body {
 input, select, textarea {
   width: 100%;
   padding: 12px;
-  border: none;
+  border: 1px solid var(--border);
   border-radius: 8px;
-  background: #1c2540;
-  color: white;
+  background: var(--bg-card2);
+  color: var(--text);
+  font-family: inherit;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--purple);
+  background: var(--bg);
 }
 
 textarea {
@@ -559,7 +666,7 @@ textarea {
   margin-top: 10px;
 }
 
-button {
+button.contact-form button {
   width: 100%;
   padding: 14px;
   margin-top: 15px;
@@ -576,13 +683,14 @@ button:hover {
 }
 
 .contact-info p {
-  color: #cbd5e1;
+  color: var(--text-muted);
   margin-bottom: 15px;
 }
 
 .hours {
   margin-top: 20px;
 }
+
 /* =========================================
    SPEED TEST
 ========================================= */
@@ -712,4 +820,20 @@ button:hover {
 .reveal.visible {
   opacity: 1;
   transform: translateY(0);
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-img {
+  height: 38px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* optional: make it slightly glow in dark mode */
+.logo-img {
+  filter: drop-shadow(0 0 6px rgba(0, 198, 255, 0.4));
 }
